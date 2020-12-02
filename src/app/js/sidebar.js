@@ -4,6 +4,28 @@
  * @returns {{}}
  */
 module.exports = function ( graph ){
+
+  // QUERY JS BEGIN
+
+  var query = document.querySelector('.query');
+  var queryResult = document.querySelector('.queryResult');
+  var querySubmit = document.querySelector('.querySubmit');
+  var queryField = document.querySelector('.queryField');
+  
+  function processResult() {
+    var userQuery = queryField.value;
+    query.textContent=userQuery+':'
+    queryField.value = '';
+    queryResult.textContent=QueryRes(userQuery);
+  }
+
+  querySubmit.addEventListener('click', processResult);
+
+  function QueryRes(userQuery){
+    return "result"
+  }
+
+  // QUERY JS END
   
   var sidebar = {},
     languageTools = webvowl.util.languageTools(),
