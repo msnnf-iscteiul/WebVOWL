@@ -14,15 +14,31 @@ module.exports = function ( graph ){
   
   function processResult() {
     var userQuery = queryField.value;
-    query.textContent=userQuery+':'
+    query.textContent=userQuery+':';
     queryField.value = '';
     queryResult.textContent=QueryRes(userQuery);
+
+    var body = {"query":userQuery,"owlFileName":"PMOEA"};
+    // var formData = new FormData();
+    // formData.append("query",userQuery);
+    // formData.append("owlFileName","PMOEA");
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST","http://localhost:8080/query",true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onload = function (){
+      var svResponse = xhr.responseText;
+      var json = JSON.stringify(svResponse);
+      var array = svResponse.split(',');
+      queryResult.textContent = array[1];
+    };
+    xhr.send(JSON.stringify(body));
   }
 
   querySubmit.addEventListener('click', processResult);
 
   function QueryRes(userQuery){
-    return "result"
+    return "result";
   }
 
   // QUERY JS END
