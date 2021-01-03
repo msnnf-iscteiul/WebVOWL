@@ -547,16 +547,16 @@ module.exports = function ( graph ){
     timedLoadingStatusLogger();
     
     var formData = new FormData();
-    formData.append("ontology", selectedFile);
-    formData.append("sessionId", local_threadId);
+    formData.append("file", selectedFile);
     var xhr = new XMLHttpRequest();
     
-    xhr.open("POST", "convert", true);
+    xhr.open("POST", "http://localhost:8080/owl", true);
     xhr.onload = function (){
       clearTimeout(loadingStatusTimer);
       stopTimer = true;
       console.log(xhr);
-      getLoadingStatusOnceCallBacked(callbackForConvert, [xhr, filename, local_threadId]);
+      callbackForConvert([xhr, filename, local_threadId]);
+      //getLoadingStatusOnceCallBacked(callbackForConvert, [xhr, filename, local_threadId]);
     };
     timedLoadingStatusLogger();
     xhr.send(formData);
@@ -566,11 +566,11 @@ module.exports = function ( graph ){
     var xhr = parameter[0];
     var filename = parameter[1];
     var local_threadId = parameter[2];
-    if ( local_threadId !== conversion_sessionId ) {
-      console.log("The conversion process for file:" + filename + " has been canceled!");
-      ontologyMenu.conversionFinished(local_threadId);
-      return;
-    }
+    // if ( local_threadId !== conversion_sessionId ) {
+    //   console.log("The conversion process for file:" + filename + " has been canceled!");
+    //   ontologyMenu.conversionFinished(local_threadId);
+    //   return;
+    // }
     if ( xhr.status === 200 ) {
       loadingModule.loadFromOWL2VOWL(xhr.responseText, filename);
       ontologyMenu.conversionFinished();

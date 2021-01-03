@@ -459,18 +459,24 @@ module.exports = function ( graph ){
   }
   
   function requestServerTimeStamp( callback, parameterArray ){
-    d3.xhr("serverTimeStamp", "application/text", function ( error, request ){
-      if ( error ) {
-        // could not get server timestamp -> no connection to owl2vowl
-        ontologyMenu.append_bulletPoint("Could not establish connection to OWL2VOWL service");
-        fallbackConversion(parameterArray); // tries o2v version0.3.4 communication
-      } else {
-        conversion_sessionId = request.responseText;
-        ontologyMenu.setConversionID(conversion_sessionId);
-        console.log("Request Session ID:" + conversion_sessionId);
-        callback(parameterArray[0], parameterArray[1], conversion_sessionId);
-      }
-    });
+    conversion_sessionId = 1111111111;
+    ontologyMenu.setConversionID(conversion_sessionId);
+    console.log("Request Session ID:" + conversion_sessionId);
+    callback(parameterArray[0], parameterArray[1], conversion_sessionId);
+
+
+    // d3.xhr("serverTimeStamp", "application/text", function ( error, request ){
+    //   if ( error ) {
+    //     // could not get server timestamp -> no connection to owl2vowl
+    //     ontologyMenu.append_bulletPoint("Could not establish connection to OWL2VOWL service");
+    //     fallbackConversion(parameterArray); // tries o2v version0.3.4 communication
+    //   } else {
+    //     conversion_sessionId = request.responseText;
+    //     ontologyMenu.setConversionID(conversion_sessionId);
+    //     console.log("Request Session ID:" + conversion_sessionId);
+    //     callback(parameterArray[0], parameterArray[1], conversion_sessionId);
+    //   }
+    // });
   }
   
   loadingModule.directInput = function ( text ){
