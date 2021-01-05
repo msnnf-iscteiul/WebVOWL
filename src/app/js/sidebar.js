@@ -135,7 +135,7 @@ module.exports = function ( graph ){
   sidebar.updateOntologyInformation = function ( data, statistics ){
     data = data || {};
     ontologyInfo = data.header || {};
-    
+    console.log(data);
     updateGraphInformation();
     displayGraphStatistics(undefined, statistics);
     displayMetadata(ontologyInfo.other);
@@ -235,6 +235,11 @@ module.exports = function ( graph ){
       .text(statistics.nodeCount());
     d3.select("#edgeCount")
       .text(statistics.edgeCount());
+
+    d3.select("#datatypeCount")
+        .text(deliveredMetrics.datatypeCount || statistics.datatypeCount());
+    d3.select("#propertyCount")
+        .text(deliveredMetrics.propertyCount || statistics.propertyCount());
   }
   
   function displayMetadata( metadata ){
