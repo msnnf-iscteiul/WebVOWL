@@ -45,7 +45,7 @@ module.exports = function (){
     statistics = webvowl.modules.statistics(),
     subclassFilter = webvowl.modules.subclassFilter(),
     setOperatorFilter = webvowl.modules.setOperatorFilter();
-  
+
   
   app.getOptions = function (){
     return webvowl.opts;
@@ -359,7 +359,16 @@ module.exports = function (){
       
     }
   };
-  
+
+  function storeAxiomCount(metrics){
+    var axiomCount = 0;
+
+    if(metrics.axiomCount === undefined) axiomCount = "Information not available";
+    else axiomCount = metrics.axiomCount;
+
+    d3.select("#axiomCount")
+        .text(axiomCount);
+  }
   
   function loadOntologyFromText( jsonText, filename, alternativeFilename ){
     d3.select("#reloadCachedOntology").classed("hidden", true);
@@ -386,7 +395,8 @@ module.exports = function (){
         loadingModule.notValidJsonFile();
         return;
       }
-      
+      storeAxiomCount(data.metrics);
+
       if ( !filename ) {
         // First look if an ontology title exists, otherwise take the alternative filename
         var ontologyNames = data.header ? data.header.title : undefined;
