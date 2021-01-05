@@ -362,14 +362,109 @@ module.exports = function (){
 
   function storeAxiomCount(metrics){
     var axiomCount = 0;
-
-    if(metrics.axiomCount === undefined) axiomCount = "Information not available";
-    else axiomCount = metrics.axiomCount;
-
+    console.log(metrics);
+    if(metrics === undefined) return;
+    else{
+      if(metrics.axiomCount === undefined) axiomCount = "Information not available";
+      else axiomCount = metrics.axiomCount;
+    }
     d3.select("#axiomCount")
         .text(axiomCount);
   }
-  
+  // -------LISTVIEW---------
+  function getClasses(json){
+    var jsonTree = [];
+    for (var i in json.class){
+      //console.log(json.class[i])
+      if(json.class[i].type == 'owl:Class'){
+        for (var j in json.classAttribute){
+          if(json.class[i].id == json.classAttribute[j].id){
+            jsonObject={}
+            jsonObject['id'] = json.class[i].id;
+            jsonObject['type'] = json.class[i].type;
+            if(json.classAttribute[j].label != undefined){
+              jsonObject['label']=json.classAttribute[j].label["IRI-based"];
+            }
+            if(json.classAttribute[j].superClasses != undefined){
+              jsonObject['superClassesID'] = json.classAttribute[j].superClasses;
+            }
+            if(json.classAttribute[j].subClasses != undefined){
+              jsonObject['subClassesID'] = json.classAttribute[j].subClasses;
+            }
+            jsonTree.push(jsonObject);
+          }
+        }
+      }
+    }
+    return jsonTree;
+  }
+  function joinSubClasses(jsonTree){
+    var listView = [...jsonTree];
+    var sub = []
+    for(let i in listView){
+      if('subClassesID' in listView[i]){
+        listView[i].subClasses = [];
+        for(let j in listView[i].subClassesID){
+          for(let k in listView){
+            if(listView[k].id == listView[i].subClassesID[j]){
+              listView[i].subClasses.push(listView[k]);
+              break;
+            }
+          }
+        }
+        sub.push(listView[i]);
+      }
+    }
+    return sub;
+  }
+
+  function joinSuperClasses(sub){
+    for(let i in sub){
+      if('superClassesID' in sub[i]){
+        for(let j in sub[i].superClassesID){
+          for(let k in sub){
+            if(sub[k].id == sub[i].superClassesID[j]){
+              for(let l in sub[k].subClasses){
+                if(sub[k].subClasses[l].id == sub[i].id){
+                  sub[k].subClasses[l] = sub[i];
+                }
+              }
+              break;
+            }
+          }
+        }
+      }
+    }
+    var treeView = [];
+    for(let i in sub) {
+      if (!('superClassesID' in sub[i])) {
+        treeView.push(sub[i]);
+      }
+    }
+    return treeView;
+  }
+
+  function buildList(listView){
+    var x = d3.select("#listView");
+    var s= "<ul>";
+
+    for(var i in listView){
+      if('subClasses' in listView[i]){
+        s+='<li>'+listView[i].label+'<ul>';
+        for(var j in listView[i].subClasses){
+          s+='<li>'+listView[i].subClasses[j].label+'</li>';
+        }
+        s+='</ul></li>';
+      }
+    }
+    s+='</ul>';
+    x.html(s);
+  }
+
+
+
+  // -------END LISTVIEW-----
+
   function loadOntologyFromText( jsonText, filename, alternativeFilename ){
     d3.select("#reloadCachedOntology").classed("hidden", true);
     pauseMenu.reset();
@@ -396,6 +491,7 @@ module.exports = function (){
         return;
       }
       storeAxiomCount(data.metrics);
+      buildList(joinSuperClasses(joinSubClasses(getClasses(data))));
 
       if ( !filename ) {
         // First look if an ontology title exists, otherwise take the alternative filename
