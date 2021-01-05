@@ -10,7 +10,6 @@ node_modules
 .classpath
 
 # Build files
-deploy/**
 !deploy/.htaccess
 webvowl*.zip
 

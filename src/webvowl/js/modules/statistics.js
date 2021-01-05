@@ -6,6 +6,7 @@ var elementTools = require("../util/elementTools")();
 module.exports = function (){
   
   var statistics = {},
+     // axiomCount,
     nodeCount,
     occurencesOfClassAndDatatypeTypes = {},
     edgeCount,
@@ -22,7 +23,9 @@ module.exports = function (){
   
   statistics.filter = function ( classesAndDatatypes, properties ){
     resetStoredData();
-    
+
+
+    //storeAxiomCount();
     storeTotalCounts(classesAndDatatypes, properties);
     storeClassAndDatatypeCount(classesAndDatatypes);
     storePropertyCount(properties);
@@ -37,6 +40,7 @@ module.exports = function (){
   };
   
   function resetStoredData(){
+    //axiomCount = 0;
     nodeCount = 0;
     edgeCount = 0;
     classCount = 0;
@@ -170,7 +174,12 @@ module.exports = function (){
     sawIndividuals = {}; // clear the object
     
   }
-  
+
+
+
+  /*statistics.axiomCount = function (){
+    return axiomCount;
+  };*/
   
   statistics.nodeCount = function (){
     return nodeCount;
