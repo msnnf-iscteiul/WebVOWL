@@ -1,4 +1,7 @@
-#ADS - Ontology Visualization
+# ADS - Ontology Visualization
+
+Project Specifications at [Moozdzn/Spring-Server-for-WebVOWL](https://github.com/Moozdzn/Spring-Server-for-WebVOWL)
+
 Forked from [Github - VisualDataWeb/WebVOWL](https://github.com/VisualDataWeb/WebVOWL)
 
 
