@@ -336,10 +336,11 @@ module.exports = function ( graph ){
           if ( equals[j].description() ) {
             eqAttr.description = equals[j].description();
           }
-          
+          console.log(equals[j]);
           if ( equals[j].individuals().length > 0 ) {
             var e_classIndividualElements = [];
-            var e_nIndividuals = equals[i].individuals();
+            console.log(equals[i]);
+            var e_nIndividuals = equals[j].individuals();
             for ( k = 0; k < e_nIndividuals.length; k++ ) {
               var e_indObj = {};
               e_indObj.iri = e_nIndividuals[k].iri();
