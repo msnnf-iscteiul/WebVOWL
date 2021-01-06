@@ -5,13 +5,25 @@
  */
 module.exports = function ( graph ){
 
+
+
   // QUERY JS BEGIN
 
   var query = document.querySelector('.query');
   var queryResult = document.querySelector('.queryResult');
   var querySubmit = document.querySelector('.querySubmit');
   var queryField = document.querySelector('.queryField');
-  
+
+  // CLEAN RESULTS
+  var cleanBtn = d3.select("#cleanBtn");
+  cleanBtn.on('click', function (){
+    queryResult.textContent = '';
+    cleanBtn.style('visibility',"hidden");
+  });
+
+  //
+
+
   function processResult() {
     var userQuery = queryField.value;
     query.textContent=userQuery+':';
@@ -19,9 +31,6 @@ module.exports = function ( graph ){
     queryResult.textContent=QueryRes(userQuery);
 
     var body = {"query":userQuery,"owlFileName":"PMOEA"};
-    // var formData = new FormData();
-    // formData.append("query",userQuery);
-    // formData.append("owlFileName","PMOEA");
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST","http://localhost:8080/query",true);
@@ -31,8 +40,10 @@ module.exports = function ( graph ){
       var json = JSON.stringify(svResponse);
       var array = svResponse.split(',');
       queryResult.textContent = array[1];
+
     };
     xhr.send(JSON.stringify(body));
+    cleanBtn.style('visibility',"visible");
   }
 
   querySubmit.addEventListener('click', processResult);
@@ -42,7 +53,9 @@ module.exports = function ( graph ){
   }
 
   // QUERY JS END
-  
+
+
+
   var sidebar = {},
     languageTools = webvowl.util.languageTools(),
     elementTools = webvowl.util.elementTools(),

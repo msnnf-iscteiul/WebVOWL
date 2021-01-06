@@ -170,8 +170,6 @@
             <!--Export Menu-->
             <ul id="m_export" class="toolTipMenu noselect">
                 <li><a href="#" download id="exportJson">Export as JSON</a></li>
-                <!--<li><a href="#" download id="exportSvg">Export as SVG</a></li>
-                <li><a href="#" download id="exportTex">Export as TeX <label style="font-size: 10px">(alpha)</label></a>-->
                 </li>
                 <li><a href="#" download id="exportTurtle">Export as TTL <label style="font-size: 10px">(alpha)</label></a>
                 </li>
@@ -516,12 +514,13 @@
                     <p><span>Select an element in the visualization.</span></p>
                 </div>
             </div>
-            <h3 class="accordion-trigger noselect">Queries</h3>
+            <h3 class="accordion-trigger noselect">Queries (Please upload your own before using)</h3>
             <div class="accordion-container">
                 <div class="form"> <label for="queryField">Query:<br></label><input type="text" id="queryField" class="queryField" size=50><br>
                     <input type="submit" value="process query" class="querySubmit">
                 </div>
 	            <div class="result">
+                    <input type="button" value="Clean results" id="cleanBtn" style="visibility: hidden">
    		            <p class="query"></p>
       		        <p class="queryResult"></p>
     	        </div>
