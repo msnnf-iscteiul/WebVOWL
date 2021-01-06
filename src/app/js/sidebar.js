@@ -39,7 +39,7 @@ module.exports = function ( graph ){
       var svResponse = xhr.responseText;
       var json = JSON.stringify(svResponse);
       var array = svResponse.split(',');
-      queryResult.textContent = array[1];
+      queryResult.textContent = array;
 
     };
     xhr.send(JSON.stringify(body));
