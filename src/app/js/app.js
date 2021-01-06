@@ -376,7 +376,7 @@ module.exports = function (){
     var jsonTree = [];
     for (var i in json.class){
       //console.log(json.class[i])
-      if(json.class[i].type == 'owl:Class'){
+      if(json.class[i].type == 'owl:Class' || json.class[i].type == 'owl:equivalentClass'){
         for (var j in json.classAttribute){
           if(json.class[i].id == json.classAttribute[j].id){
             jsonObject={}
